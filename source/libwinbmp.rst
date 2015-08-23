@@ -32,7 +32,7 @@ Histogram
 ----
 `bmp_t *bmp_brightness(bmp_t *bmp, int step)`_
     Adjusts the brightness of the image.
-`bmp_t *bmp_invert(bmp_t *bmp`_
+`bmp_t *bmp_invert(bmp_t *bmp)`_
     Inverts the color values.
 `bmp_t *bmp_grayscale(bmp_t *bmp)`_
     Converts the image into grayscale.
@@ -70,12 +70,3 @@ Convolution Filters
 `bmp_t *bmp_mean(bmp_t *bmp)`_
     Mean blur filter.
     
-    
-    
-    
-
-
-
-
-
-
