@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <math.h>
 
+
 typedef struct {
     unsigned short int type;               // 0  2 the header field used to identify the BMP & DIB file is 0x42 0x4D in hexadecimal, same as BM in ASCII.
     unsigned int bitmap_size;              // 2  4 the size of the BMP file in bytes
@@ -42,7 +43,7 @@ unsigned int get_row_size(bmp_t *bmp)
 }
 
 unsigned int get_pixel_array_size(bmp_t *bmp)
-{;
+{
     return get_row_size(bmp) * bmp->info.height;
 }
 
@@ -773,7 +774,6 @@ bmp_t *bmp_mean(bmp_t *bmp)
     return bmp;
 }
 
-
 void bmp_set_pixel(bmp_t *bmp, const unsigned int x, const unsigned int y, const unsigned int hex)
 {
     unsigned int dx = 3 * x;
@@ -801,48 +801,33 @@ unsigned char *bmp_get_pixel(bmp_t *bmp, const unsigned int x, const unsigned in
     return bgr;
 }
 
-void bmp_line(
+bmp_t *bmp_line(
     bmp_t *bmp,
     const int x0,
     const int y0,
     const int x1,
     const int y1,
-    const int hex)
+    const int rgb)
 {
+    int dx = x1 - x0;
+    int dy = y1 - y0;
     int x;
-    int y;
-    int start = 3 * x0;
-    int finish = 3 * x1;
-    unsigned int total_width = 3 * bmp->info.width;
-    double m = (double)(y1 - y0) / (double)(x1 - x0);
-    double b = (double)y1 - m * (double)x1;
+    int y = y0;
+    int e = dx - dy;
 
-    for (x = start; x < finish; x+=3) {
-        y = (unsigned int)((round(m * (double)x/3 + b)));
-        if (x >= 0 && y >= 0 && (unsigned int)x < total_width && (unsigned int)y < bmp->info.height) {
-            bmp->data[y][x] = (unsigned char)hex;
-            bmp->data[y][x+1] = (unsigned char)(hex >> 8);
-            bmp->data[y][x+2] = (unsigned char)(hex >> 16);
+    x = x0;
+    while (x < x1) {
+        bmp->data[y][x] = (unsigned char)rgb;
+        bmp->data[y][x+1] = (unsigned char)(rgb >> 8);
+        bmp->data[y][x+2] = (unsigned char)(rgb >> 16);
+
+        if (e >= 0) {
+            y += 1;
+            e -= dx;
         }
+        x += 1;
+        e += dy;
     }
+    return bmp;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

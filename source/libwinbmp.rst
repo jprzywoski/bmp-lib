@@ -70,3 +70,19 @@ Convolution Filters
 `bmp_t *bmp_mean(bmp_t *bmp)`_
     Mean blur filter.
     
+
+Drawing
+----
+`unsigned char *bmp_get_pixel(bmp_t *bmp, const unsigned int x, const unsigned int y)`_
+	Returns the blue-green-red pixel values at the speecified point.
+`void bmp_set_pixel(bmp_t *bmp, const unsigned int x, const unsigned int y, const unsigned int rgb)`_
+	Sets the pixel at the specified point.
+`bmp_t *bmp_line(
+    bmp_t *bmp,
+    const int x0,
+    const int y0,
+    const int x1,
+    const int y1,
+    const int rgb)`_
+    Draws a line.
+    
